@@ -28,17 +28,17 @@ faint=";2"
 underline=";4"
 blink=";5"
 
-<%- @custom_usercolors.each do |user, colors| -%>
+<%- scope.lookupvar('colorprompt::custom_usercolors').each do |user, colors| -%>
 if [ "$USER" = "<%= user %>" ]; then
   userColor="\[\e[0<%- if colors.is_a?(Array) -%><% colors.each do |color| -%>${<%= color %>}<% end -%><%- else -%>${<%= colors %>}<%- end -%>m\]"
 el<%- end -%>se
-  userColor="\[\e[0<%- if @default_usercolor.is_a?(Array) -%><% @default_usercolor.each do |color| -%>${<%= color %>}<% end -%><%- else -%>${<%= @default_usercolor %>}<%- end -%>m\]"
+  userColor="\[\e[0<%- if scope.lookupvar('colorprompt::default_usercolor').is_a?(Array) -%><% scope.lookupvar('colorprompt::default_usercolor').each do |color| -%>${<%= color %>}<% end -%><%- else -%>${<%= scope.lookupvar('colorprompt::default_usercolor') %>}<%- end -%>m\]"
 fi
-<% if @server_color and ! @server_color.empty? %>
-serverColor="\[\e[0<%- if @server_color.is_a?(Array) -%><%- @server_color.each do |color| -%>${<%= color %>}<%- end -%><%- else -%>${<%= @server_color %>}<%- end -%>m\]"
+<% if scope.lookupvar('colorprompt::server_color') and ! scope.lookupvar('colorprompt::server_color').empty? %>
+serverColor="\[\e[0<%- if scope.lookupvar('colorprompt::server_color').is_a?(Array) -%><%- scope.lookupvar('colorprompt::server_color').each do |color| -%>${<%= color %>}<%- end -%><%- else -%>${<%= scope.lookupvar('colorprompt::server_color') %>}<%- end -%>m\]"
 <% end -%>
-<% if @env_name and ! @env_name.empty? %>
-env="\[\e[0<%- if @env_color.is_a?(Array) -%><% @env_color.each do |color| -%>${<%= color %>}<%- end -%><%- else -%>${<%= @env_color %>}<%- end -%>m\]<%= @env_name %>\[\e[0m\] "
+<% if scope.lookupvar('colorprompt::env_name') and ! scope.lookupvar('colorprompt::env_name').empty? %>
+env="\[\e[0<%- if scope.lookupvar('colorprompt::env_color').is_a?(Array) -%><% scope.lookupvar('colorprompt::env_color').each do |color| -%>${<%= color %>}<%- end -%><%- else -%>${<%= scope.lookupvar('colorprompt::env_color') %>}<%- end -%>m\]<%= scope.lookupvar('colorprompt::env_name') %>\[\e[0m\] "
 <% end %>
 # Set prompt
 if [ $TERM != "dumb" ]; then
